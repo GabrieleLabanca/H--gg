@@ -36,8 +36,25 @@ class Trapzd : Quadrature {
     }
 };
 
+template<class T>
+class Derivative
+{
+  public:
+    T &func;
+    Derivative(){};
+    Derivative(T &funcc, double hh): func(funcc), h(hh) {}
+
+    //f'_0 = 1/2h (f- - f+) 
+    double operator()(double x) const { return -(func(x-h) - func(x+h))/(2.*h); }
+
+  private:
+    double h;
+
+};
+
+
 /*template<class T>
-class MontecarloTwo {
+  class MontecarloTwo {
   using namespace std;
   public:
   double precision;
@@ -45,16 +62,16 @@ class MontecarloTwo {
   T & func;
   Montecarlo() {}
   Montecarlo(T &funcc, const double aax, const double bbx, 
-      const double aay, const double bby, double p): 
-    func(funcc), ax(aax), bx(bbx), ay(aay), by(bby), precision(p) {}
+  const double aay, const double bby, double p): 
+  func(funcc), ax(aax), bx(bbx), ay(aay), by(bby), precision(p) {}
   double integrate(){
-    int seed = time(NULL);
-    srand48(seed);
-    for(int i=0; i< 10; i++)
-      cerr << drand48() << endl ;
+  int seed = time(NULL);
+  srand48(seed);
+  for(int i=0; i< 10; i++)
+  cerr << drand48() << endl ;
 
   }
-};
+  };
 
 */
 
