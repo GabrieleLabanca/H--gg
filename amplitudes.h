@@ -13,8 +13,6 @@ class Functional
 {
   public:
     virtual double operator()(double z) = 0;
-
-
 };
 
 class TwoDimFunc : public Functional
@@ -93,9 +91,6 @@ class Derivative_TDF : public Functional
     double h;
 };
 
-
-
-
 class A00 : public TwoDimFunc, public PhysConst
 {
   private:
@@ -120,20 +115,10 @@ class A00_alt : public TwoDimFunc, public PhysConst
    double a,b,c,d,e,f;
    double f
    */
-
-
-
 /*
    class Quadr : public TwoDimFunc
    {
    private:
    double f(double x, double y){ return x*x + y*y; }
    };*/
-
-
-
-
-
-
-
 #endif

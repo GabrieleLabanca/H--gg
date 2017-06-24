@@ -42,7 +42,25 @@ class mean : public funtore
     }
 };
 
+class printer
+{
+  public:
+    void print_value() { cerr << value << endl; }
+    double value = 0;
+};
 
+class printer_mean : public funtore, public printer
+{
+  public:
+    funtore *func;
+    mean(funtore &funcc) : func(&funcc) {}
+    double operator()(double z)
+    {
+      print_value();
+      value (*func)(z)/z;
+      return value;
+    }
+};
 
 
 
@@ -53,6 +71,10 @@ int main()
   mean C(B);
 
   cerr << C(3) << endl;
+
+  printer_mean D(B);
+
+  cerr << D(4) << endl;
 
 
 
