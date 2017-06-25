@@ -4,9 +4,9 @@
 
 class PhysConst
 {
-  protected:
-    double mH = 125.09; //GeV
-    double mt = 172.44; //GeV
+  public:
+    static constexpr double mH = 125.09; //GeV
+    static constexpr double mt = 172.44; //GeV
 };
 
 
