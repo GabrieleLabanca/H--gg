@@ -130,6 +130,22 @@ class onedim_A00_alt : public PhysConst
     double fction(double x, double y){ return log((c*x*y+d*x+e*y+f)/(d*x+f)) / (c*x+e);  }
 };
 
+class amp00 : public TwoDimFunc, public PhysConst
+{
+  private:
+    double fction(double x, double y){ return ( 2*mt*mt+mH*mH*0.5*(-1-4*x*y) ) / ( mt*mt - x*y*mH*mH*0.5 ); }
+};
+
+class amp12 : public TwoDimFunc, public PhysConst
+{
+  private:
+    double fction(double x, double y){ return ( 1+4*x ) / ( mt*mt - x*y*mH*mH*0.5 ); }
+};
+
+
+
+
+
 class linear : public TwoDimFunc, public PhysConst
 {
   private: 

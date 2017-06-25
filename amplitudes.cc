@@ -18,9 +18,45 @@ int main()
   double olds,news,diff;
   double counter;
 
+
+  amp00 my00;
+  Integral_TDF myI00_y(my00);
+  Trapzd<Integral_TDF> myI00(myI00_y,0,1);
+  news = 0;
+  counter = 0;
+  do{
+    olds = news;
+    news = myI00.next();
+    //cerr << news << endl;
+  } while( abs(news-olds)>0.00001 && (++counter)<20 );
+  cerr << "Amplitude_00: " <<  news << endl;
+
+  amp12 my12;
+  Integral_TDF myI12_y(my12);
+  Trapzd<Integral_TDF> myI12(myI12_y,0,1);
+  news = 0;
+  counter = 0;
+  do{
+    olds = news;
+    news = myI12.next();
+    //cerr << news << endl;
+  } while( abs(news-olds)>0.00001 && (++counter)<20 );
+  cerr << "Amplitude_12: " <<  news << endl;
+
+
+
+
+
+
+
+
+
+
+
+
   const double necessary = 0;
   ParametersStruct myparam(necessary,necessary,1.3,1,1,-0.8);
-  
+
   // FIRST INTEGRAL
   A00 myAmp(myparam);
   Integral_TDF   I_myAmp_y(myAmp);
