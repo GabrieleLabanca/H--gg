@@ -12,7 +12,17 @@
 class Functional
 {
   public:
+    void set_y0(double new_y0){ y0 = new_y0; }
     virtual double operator()(double z) = 0;
+    double y0 = 0;
+};
+
+class OneDimFunc : public Functional
+{
+  public:
+    double operator()(double z){ return f(z); }
+  private:
+    virtual double f(double x) = 0;
 };
 
 class TwoDimFunc : public Functional
@@ -21,7 +31,7 @@ class TwoDimFunc : public Functional
     double get_f(double x, double y){ return f(x,y); }
     double get_f_y0(double x){ return f(x,y0); }
     double get_f_x0(double y){ return f(x0,y); }
-    void set_y0(double new_y0){ y0 = new_y0; }
+    //void set_y0(double new_y0){ y0 = new_y0; }
     void set_x0(double new_x0){ x0 = new_x0; }
     void set_flag(char c){ fix_var_flag = c; }
     double operator()(double z) 
@@ -32,7 +42,7 @@ class TwoDimFunc : public Functional
   private:
     char fix_var_flag = 'y'; //tells which variable is fixed
     double x0 = 0;
-    double y0 = 0;
+    //double y0 = 0;
     virtual double f(double x, double y) = 0;
 };
 
@@ -60,6 +70,7 @@ class Integral_TDF : public Functional
     Integral_TDF(Functional &funcc) : func(&funcc) {}
     double operator()(double y)
     {
+      (*func).set_y0(y);
       Trapzd<Functional> int_method(*func,0,1-y);
       double olds,news;
       news = 0;
@@ -93,8 +104,12 @@ class Derivative_TDF : public Functional
 
 class A00 : public TwoDimFunc, public PhysConst
 {
+  public:
+    A00(double aa, double bb, double cc, double  dd, double ee, double  ff): a(aa), b(bb), c(cc), d(dd), e(ee), f(ff) {}
   private:
-    double f(double x, double y){ return (1-2*x-2*y-4*x*y) / (mt*mt - x*y*mH*mH*0.5); }
+    double a, b, c, d, e, f;
+    double f(double x, double y){ return 1/(x*y-mH); }
+    //double f(double x, double y){ return (1-2*x-2*y-4*x*y) / (mt*mt - x*y*mH*mH*0.5); }
 };
 
 class A00_alt : public TwoDimFunc, public PhysConst
@@ -103,7 +118,24 @@ class A00_alt : public TwoDimFunc, public PhysConst
     double f(double x, double y){ return -2.*(1-2*x-2*y-4*x*y)/(x*mH*mH)*log(1-0.5*x*y*mH*mH/(mt*mt));  }
 };
 
+class linear : public TwoDimFunc, public PhysConst
+{
+  private: 
+    double f(double x, double y){ return x+2*y; }
+};
 
+class linear_alt : public TwoDimFunc, public PhysConst
+{
+  private:
+    double f(double x, double y){ return x*y + 2*y; }
+};
+
+
+class strange_function : public OneDimFunc
+{
+  private:
+    double f(double x){ return (x-1)*(x-1);}//+(x-1)*(x-1)-std::sin(4*x); }
+    };
 
 /*
    class Ampl : public TwoDimFunc, public PhysConst

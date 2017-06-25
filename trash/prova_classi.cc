@@ -53,11 +53,11 @@ class printer_mean : public funtore, public printer
 {
   public:
     funtore *func;
-    mean(funtore &funcc) : func(&funcc) {}
+    printer_mean(funtore &funcc) : func(&funcc) {}
     double operator()(double z)
     {
       print_value();
-      value (*func)(z)/z;
+      value = (*func)(z)/z;
       return value;
     }
 };
@@ -75,21 +75,6 @@ int main()
   printer_mean D(B);
 
   cerr << D(4) << endl;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   return 0;
 }
