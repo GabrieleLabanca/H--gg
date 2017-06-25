@@ -15,8 +15,10 @@ int main()
   double ds = 0.1;
   double olds,news,diff;
 
+  ParametersStruct myparam(0,0,0,1,1,2);
+  
   // FIRST INTEGRAL
-  A00 myAmp;
+  A00 myAmp(myparam);
   Integral_TDF   I_myAmp_y(myAmp);
 
   Trapzd<Integral_TDF> myIntegral(I_myAmp_y,0,1);
@@ -24,13 +26,13 @@ int main()
   do{
     olds = news;
     news = myIntegral.next();
-    cerr << news << endl;
+    //cerr << news << endl;
   } while( abs(news-olds)>0.001 );
   cerr << "first integral: " <<  news << endl;
 
 
   // SECOND INTEGRAL
-  A00_alt myAmp_alt;
+  /*A00_alt myAmp_alt(myparam);
   Integral_TDF    I_myAmp_alt_y(myAmp_alt);
   Derivative_TDF  D_myAmp_alt_y(I_myAmp_alt_y,ds);
 
@@ -39,15 +41,26 @@ int main()
   do{
     olds = news;
     news = myIntegral_alt.next();
-    cerr << news << endl;
+    //cerr << news << endl;
     diff = news - olds;
     //cerr << "diff " << diff << endl; 
+  } while( abs(diff)>0.00001 );
+  cerr << "second integral: " <<  news << endl;
+  */
+  onedim_A00_alt myAmp_alt(myparam);
+  Trapzd<onedim_A00_alt> myIntegral_alt(myAmp_alt,0,1);
+  news = 0;
+  do{
+    olds = news;
+    news = myIntegral_alt.next();
+    diff = news - olds;
   } while( abs(diff)>0.00001 );
   cerr << "second integral: " <<  news << endl;
 
 
 
 
+/*
   cerr << "______________________________________\n TRIAL INTEGRALS\n";
   // TRIAL INTEGRAL
   linear mylin;
@@ -85,9 +98,10 @@ int main()
   double dh = 0.001;
   Derivative_TDF dstrange(mystrange,dh);
   for(int i=0; i<1./dh; ++i){
-    out_trash << i*dh << " " << mylin_alt(i*dh) << " " <<  I_lin_alt_y(i*dh) << endl;
+    //out_trash << i*dh << " " << I_myAmp_alt_y(i*dh) << " " <<  D_myAmp_alt_y(i*dh) << " " << log(i*dh) << endl;
   }
 
+  */
 
 
 

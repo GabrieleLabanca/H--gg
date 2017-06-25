@@ -20,30 +20,31 @@ class Functional
 class OneDimFunc : public Functional
 {
   public:
-    double operator()(double z){ return f(z); }
+    double operator()(double z){ return fction(z); }
+
   private:
-    virtual double f(double x) = 0;
+    virtual double fction(double x) = 0;
 };
 
 class TwoDimFunc : public Functional
 {
   public:
-    double get_f(double x, double y){ return f(x,y); }
-    double get_f_y0(double x){ return f(x,y0); }
-    double get_f_x0(double y){ return f(x0,y); }
+    double get_f(double x, double y){ return fction(x,y); }
+    double get_f_y0(double x){ return fction(x,y0); }
+    double get_f_x0(double y){ return fction(x0,y); }
     //void set_y0(double new_y0){ y0 = new_y0; }
     void set_x0(double new_x0){ x0 = new_x0; }
     void set_flag(char c){ fix_var_flag = c; }
     double operator()(double z) 
     { 
-      if(fix_var_flag=='x') return f(x0,z);
-      else if(fix_var_flag=='y') return f(z,y0);
+      if(fix_var_flag=='x') return fction(x0,z);
+      else if(fix_var_flag=='y') return fction(z,y0);
     }
   private:
     char fix_var_flag = 'y'; //tells which variable is fixed
     double x0 = 0;
     //double y0 = 0;
-    virtual double f(double x, double y) = 0;
+    virtual double fction(double x, double y) = 0;
 };
 
 /* // non risolve il problema
@@ -102,55 +103,66 @@ class Derivative_TDF : public Functional
     double h;
 };
 
+class ParametersStruct
+{
+  public:
+    ParametersStruct(double a, double b, double c, double d, double e, double f): aa(a),bb(b),cc(c),dd(d),ee(e),ff(f) {}
+    double aa,bb,cc,dd,ee,ff;
+};
+
 class A00 : public TwoDimFunc, public PhysConst
 {
   public:
-    A00(double aa, double bb, double cc, double  dd, double ee, double  ff): a(aa), b(bb), c(cc), d(dd), e(ee), f(ff) {}
+    A00(ParametersStruct param): a(param.aa), b(param.bb), c(param.cc), d(param.dd), e(param.ee), f(param.ff) {}
   private:
     double a, b, c, d, e, f;
-    double f(double x, double y){ return 1/(x*y-mH); }
-    //double f(double x, double y){ return (1-2*x-2*y-4*x*y) / (mt*mt - x*y*mH*mH*0.5); }
+    double fction(double x, double y){ return 1/(a*x*x+b*y*y+c*x*y+d*x+e*y+f); }
+    //double fction(double x, double y){ return (1-2*x-2*y-4*x*y) / (mt*mt - x*y*mH*mH*0.5); }
 };
 
-class A00_alt : public TwoDimFunc, public PhysConst
-{
+class onedim_A00_alt : public PhysConst
+{ 
+  public:
+    double operator()(double y){ return (fction(1-y,y) - fction(1-y,0)); }
+    onedim_A00_alt(ParametersStruct param): a(param.aa), b(param.bb), c(param.cc), d(param.dd), e(param.ee), f(param.ff) {}
   private:
-    double f(double x, double y){ return -2.*(1-2*x-2*y-4*x*y)/(x*mH*mH)*log(1-0.5*x*y*mH*mH/(mt*mt));  }
+    double a, b, c, d, e, f;
+    double fction(double x, double y){ return log((c*x*y+d*x+e*y+f)/(d*x+f)) / (c*x+e);  }
 };
 
 class linear : public TwoDimFunc, public PhysConst
 {
   private: 
-    double f(double x, double y){ return x+2*y; }
+    double fction(double x, double y){ return 1; }
 };
 
 class linear_alt : public TwoDimFunc, public PhysConst
 {
   private:
-    double f(double x, double y){ return x*y + 2*y; }
+    double fction(double x, double y){ return y  ; }
 };
 
 
 class strange_function : public OneDimFunc
 {
   private:
-    double f(double x){ return (x-1)*(x-1);}//+(x-1)*(x-1)-std::sin(4*x); }
+    double fction(double x){ return (x-1)*(x-1); } //+(x-1)*(x-1)-std::sin(4*x); }
     };
 
 /*
    class Ampl : public TwoDimFunc, public PhysConst
    {
    public:
-   Ampl(double aa, double bb, double cc, double dd, double ee, double ff): 
+   Ampl(double aa, double bb, double cc, double dd, double ee, double fctionf): 
    a(aa), b(bb), c(cc), d(dd), e(ee), f(ff) {}
    private:
    double a,b,c,d,e,f;
-   double f
+   double fction
    */
 /*
    class Quadr : public TwoDimFunc
    {
    private:
-   double f(double x, double y){ return x*x + y*y; }
+   double fction(double x, double y){ return x*x + y*y; }
    };*/
 #endif
