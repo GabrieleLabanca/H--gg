@@ -4,7 +4,7 @@ The target is to obtain the amplitude of the process gg->h (two gluons produce a
 
 ![alt text][gg->h]
 
-For sake of simplicity, only the _top_ quark loop is considered, since it gives the dominant effect.
+For sake of simplicity, only one of the two _top_ quark loop is considered, since it gives the dominant effect.
 
 The amplitude is first computed using the Feynman parameters and master integrals, then a numerical method is used to compute the scalar integrals, which are factors of the different tensorial terms in the amplitude. 
 
