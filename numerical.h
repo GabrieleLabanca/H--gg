@@ -2,6 +2,7 @@
 #define NUMERICAL_H
 
 #include<cstdlib>
+#include<stdlib.h>
 
 class Quadrature {
   public:
@@ -53,27 +54,38 @@ class Derivative
 };
 
 
-/*template<class T>
-  class MontecarloTwo {
-  using namespace std;
+template<class T>
+class MontecarloTriangle {
   public:
-  double precision;
-  double ax, bx, ay, by;
-  T & func;
-  Montecarlo() {}
-  Montecarlo(T &funcc, const double aax, const double bbx, 
-  const double aay, const double bby, double p): 
-  func(funcc), ax(aax), bx(bbx), ay(aay), by(bby), precision(p) {}
-  double integrate(){
-  int seed = time(NULL);
-  srand48(seed);
-  for(int i=0; i< 10; i++)
-  cerr << drand48() << endl ;
-
-  }
-  };
-
-*/
-
+    double Ntry;
+    double ax, bx, ay, by;
+    T & func;
+    MontecarloTriangle() {}
+    MontecarloTriangle(T &funcc, double trials): 
+      func(funcc), Ntry(trials) {}
+    double integrate(){
+      int seed = time(NULL);
+      srand48(seed);
+            int hit = 0;
+      int miss = 0;
+      double MAX_H =3; 
+      double rndx, rndy, rndz;
+      double funval;
+      for(int i=0; i<Ntry; i++){
+        rndx = drand48();   
+        rndy = drand48()*rndx; 
+        rndz = drand48()*MAX_H;
+        func.set_y0(rndy);
+        funval = func(rndx); ///insert here the function
+        if(funval>rndz){
+          hit++;
+        }
+        else miss++;
+      }
+      double volume = 0.5*MAX_H;
+      double integral = volume*double(hit)/(double(hit)+double(miss));
+      return integral;
+    }
+};
 
 #endif

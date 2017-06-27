@@ -47,20 +47,6 @@ class TwoDimFunc : public Functional
     virtual double fction(double x, double y) = 0;
 };
 
-/* // non risolve il problema
-   class TDF_proxy
-   {
-   public:
-   TDF_proxy(TwoDimFunction &funcc): func(funcc){}
-   double operator()(double y)
-   { 
-   func.set_y0(y); 
-   return func
-
-   private:
-   TwoDimFunc func;
-   };
-   */
 
 template <class T>
 class Trapzd;
@@ -86,6 +72,7 @@ class Integral_TDF : public Functional
     double a,b;
 };
 
+
 template <class T>
 class Derivative;
 
@@ -103,6 +90,10 @@ class Derivative_TDF : public Functional
     double h;
 };
 
+
+
+
+
 class ParametersStruct
 {
   public:
@@ -110,6 +101,24 @@ class ParametersStruct
     double aa,bb,cc,dd,ee,ff;
 };
 
+class amp00 : public TwoDimFunc, public PhysConst
+{
+  private:
+    double fction(double x, double y){ return ( 2*mt*mt+mH*mH*0.5*(-1-4*x*y) ) / ( mt*mt - x*y*mH*mH*0.5 ); }
+};
+
+class amp12 : public TwoDimFunc, public PhysConst
+{
+  private:
+    double fction(double x, double y){ return ( 1+4*x ) / ( mt*mt - x*y*mH*mH*0.5 ); }
+};
+
+
+
+
+
+
+/*
 class A00 : public TwoDimFunc, public PhysConst
 {
   public:
@@ -129,22 +138,10 @@ class onedim_A00_alt : public PhysConst
     double a, b, c, d, e, f;
     double fction(double x, double y){ return log((c*x*y+d*x+e*y+f)/(d*x+f)) / (c*x+e);  }
 };
-
-class amp00 : public TwoDimFunc, public PhysConst
-{
-  private:
-    double fction(double x, double y){ return ( 2*mt*mt+mH*mH*0.5*(-1-4*x*y) ) / ( mt*mt - x*y*mH*mH*0.5 ); }
-};
-
-class amp12 : public TwoDimFunc, public PhysConst
-{
-  private:
-    double fction(double x, double y){ return ( 1+4*x ) / ( mt*mt - x*y*mH*mH*0.5 ); }
-};
+*/
 
 
-
-
+/*
 
 class linear : public TwoDimFunc, public PhysConst
 {
@@ -165,7 +162,7 @@ class strange_function : public OneDimFunc
     double fction(double x){ return (x-1)*(x-1); } //+(x-1)*(x-1)-std::sin(4*x); }
     };
 
-/*
+
    class Ampl : public TwoDimFunc, public PhysConst
    {
    public:
