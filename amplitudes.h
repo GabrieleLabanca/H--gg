@@ -32,7 +32,6 @@ class TwoDimFunc : public Functional
     double get_f(double x, double y){ return fction(x,y); }
     double get_f_y0(double x){ return fction(x,y0); }
     double get_f_x0(double y){ return fction(x0,y); }
-    //void set_y0(double new_y0){ y0 = new_y0; }
     void set_x0(double new_x0){ x0 = new_x0; }
     void set_flag(char c){ fix_var_flag = c; }
     double operator()(double z) 
@@ -43,7 +42,6 @@ class TwoDimFunc : public Functional
   private:
     char fix_var_flag = 'y'; //tells which variable is fixed
     double x0 = 0;
-    //double y0 = 0;
     virtual double fction(double x, double y) = 0;
 };
 
@@ -91,9 +89,6 @@ class Derivative_TDF : public Functional
 };
 
 
-
-
-
 class ParametersStruct
 {
   public:
@@ -114,68 +109,4 @@ class amp12 : public TwoDimFunc, public PhysConst
 };
 
 
-
-
-
-
-/*
-class A00 : public TwoDimFunc, public PhysConst
-{
-  public:
-    A00(ParametersStruct param): a(param.aa), b(param.bb), c(param.cc), d(param.dd), e(param.ee), f(param.ff) {}
-  private:
-    double a, b, c, d, e, f;
-    double fction(double x, double y){ return 1/(a*x*x+b*y*y+c*x*y+d*x+e*y+f); }
-    //double fction(double x, double y){ return (1-2*x-2*y-4*x*y) / (mt*mt - x*y*mH*mH*0.5); }
-};
-
-class onedim_A00_alt : public PhysConst
-{ 
-  public:
-    double operator()(double y){ return (fction(1-y,y) - fction(1-y,0)); }
-    onedim_A00_alt(ParametersStruct param): a(param.aa), b(param.bb), c(param.cc), d(param.dd), e(param.ee), f(param.ff) {}
-  private:
-    double a, b, c, d, e, f;
-    double fction(double x, double y){ return log((c*x*y+d*x+e*y+f)/(d*x+f)) / (c*x+e);  }
-};
-*/
-
-
-/*
-
-class linear : public TwoDimFunc, public PhysConst
-{
-  private: 
-    double fction(double x, double y){ return 1; }
-};
-
-class linear_alt : public TwoDimFunc, public PhysConst
-{
-  private:
-    double fction(double x, double y){ return y  ; }
-};
-
-
-class strange_function : public OneDimFunc
-{
-  private:
-    double fction(double x){ return (x-1)*(x-1); } //+(x-1)*(x-1)-std::sin(4*x); }
-    };
-
-
-   class Ampl : public TwoDimFunc, public PhysConst
-   {
-   public:
-   Ampl(double aa, double bb, double cc, double dd, double ee, double fctionf): 
-   a(aa), b(bb), c(cc), d(dd), e(ee), f(ff) {}
-   private:
-   double a,b,c,d,e,f;
-   double fction
-   */
-/*
-   class Quadr : public TwoDimFunc
-   {
-   private:
-   double fction(double x, double y){ return x*x + y*y; }
-   };*/
 #endif

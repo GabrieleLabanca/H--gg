@@ -44,13 +44,10 @@ class Derivative
     T &func;
     Derivative(){};
     Derivative(T &funcc, double hh): func(funcc), h(hh) {}
-
     //f'_0 = 1/2h (f- - f+) 
     double operator()(double x) const { return -(func(x-h) - func(x+h))/(2.*h); }
-
   private:
     double h;
-
 };
 
 
