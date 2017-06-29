@@ -108,5 +108,11 @@ class amp12 : public TwoDimFunc, public PhysConst
     double fction(double x, double y){ return ( 1+4*x ) / ( mt*mt - x*y*mH*mH*0.5 ); }
 };
 
+class trylog : public TwoDimFunc, public PhysConst
+{
+  private:
+    double fction(double x, double y){ return log(1+x/(1-x)) / x; }
+};
+
 
 #endif

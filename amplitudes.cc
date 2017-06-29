@@ -61,5 +61,30 @@ int main()
     << setw(15) << left << MC_a12.integrate() << "|"
     << endl;
 
+
+  trylog mylog;
+  Integral_TDF myI_log_y(mylog);
+  Trapzd<Integral_TDF> myI_log(myI_log_y,0,1);
+  news = 0;
+  counter = 0;
+  do{
+    olds = news;
+    news = myI_log.next();
+    //cerr << news << endl;
+  } while( abs(news-olds)>0.00001 && (++counter)<20 );
+  cerr 
+    << setw(15) << left << "log_try" << "|"
+    << setw(15) << left <<  news           << "|";
+  MontecarloTriangle<trylog> MC_log(mylog,10000);
+  cerr
+    << setw(15) << left << MC_log.integrate() << "|"
+    << endl;
+
+
+
+
+
+
+
   return 0;
 }
